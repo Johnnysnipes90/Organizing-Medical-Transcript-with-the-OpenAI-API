@@ -46,3 +46,70 @@ All wrapped in a clean, modular, production-ready pipeline suitable for machine 
 ```bash
 git clone https://github.com/your-username/medical-transcription-icd.git
 cd medical-transcription-icd
+```
+
+### 2️⃣ Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 3️⃣ Set your OpenAI API key
+```bash
+# macOS/Linux
+export OPENAI_API_KEY=your_key_here
+
+# Windows
+setx OPENAI_API_KEY "your_key_here"
+```
+
+# 📘 Usage Examples
+✔ Python Usage
+from medical_transcription_icd.utils import load_transcriptions
+from medical_transcription_icd.process import process_transcriptions
+
+df = load_transcriptions("data/transcriptions.csv")
+df_structured = process_transcriptions(df)
+
+print(df_structured.head())
+
+
+# ✔ Streamlit App
+Launch the interactive app:
+```bash
+streamlit run streamlit_app.py
+```
+
+# 🐳 Docker Usage
+Build Docker image
+```bash
+docker compose build
+```
+---
+
+```
+🧰 Project Structure
+medical-transcription-icd/
+├─ data/                      # local CSV storage (ignored by Git)
+├─ notebooks/
+│  └─ example.ipynb           # Demonstration notebook
+├─ src/
+│  └─ medical_transcription_icd/
+│     ├─ __init__.py
+│     ├─ client.py            # OpenAI client init
+│     ├─ extract.py           # Function-calling extraction logic
+│     ├─ icd.py               # ICD-10 mapping logic
+│     ├─ process.py           # Full pipeline
+│     └─ utils.py             # Helpers/loaders
+├─ tests/
+│  ├─ test_extract.py
+│  ├─ test_icd.py
+│  └─ test_process_mocked.py  # Mocked OpenAI responses
+├─ streamlit_app.py           # Web UI
+├─ requirements.txt
+├─ Dockerfile
+├─ docker-compose.yml
+├─ .pre-commit-config.yaml
+├─ LICENSE
+├─ README.md
+└─ pyproject.toml / setup.cfg
+```
