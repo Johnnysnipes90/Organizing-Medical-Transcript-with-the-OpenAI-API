@@ -1,10 +1,37 @@
-FROM python:3.11-slim
+# ============================================
+# Stage 1 — Build environment
+# ============================================
+FROM python:3.10-slim AS base
 
+# Set working directory
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install system packages (needed for pandas, numpy, etc.)
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY . .
+# Copy project files
+COPY ./src ./src
+COPY ./streamlit_app.py .
+COPY ./requirements.txt .
+COPY ./notebooks ./notebooks
+COPY ./data ./data
 
-CMD ["python", "-c", "print('Container ready. Import the package to use.')"]
+# Install dependencies
+RUN pip install --upgrade pip \
+    && pip install -r requirements.txt
+
+# Create a non-root user for security
+RUN useradd -m appuser
+USER appuser
+
+# Default exposes for Streamlit + Jupyter
+EXPOSE 8501
+EXPOSE 8888
+
+# ============================================
+# Default command (Streamlit app)
+# ============================================
+CMD ["streamlit", "run", "streamlit_app.py"]
