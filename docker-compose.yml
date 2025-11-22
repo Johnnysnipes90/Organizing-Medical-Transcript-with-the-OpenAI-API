@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: medical_icd_app
+    ports:
+      - "8501:8501"   # Streamlit
+      - "8888:8888"   # Notebook
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - .:/app
+    command: streamlit run streamlit_app.py
+
+  cli:
+    build: .
+    container_name: medical_icd_cli
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - .:/app
+    entrypoint: ["python", "-m", "medical_transcription_icd.cli"]
