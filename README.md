@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="assets/banner.svg" width="100%" />
+</p>
+
+
 # Organizing Medical Transcriptions with the OpenAI API
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
